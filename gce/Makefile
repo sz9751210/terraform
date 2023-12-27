@@ -1,7 +1,7 @@
-.PHONY: up_gce down_gce
+.PHONY: up-gce down-gce
 
-up_gce:
+up-gce:
 	cd env && terraform init && terraform apply -auto-approve
 
-down_gce:
+down-gce:
 	cd env && terraform init && terraform destroy
