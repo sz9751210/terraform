@@ -1,9 +1,8 @@
 resource "google_container_cluster" "gke_cluster" {
 
   ##### 叢集基本資料 #####
-  project  = var.project_id
-  location = var.zone
   name     = var.cluster_name
+  location = var.zone
 
   # 控制層版本 -> 發布版本
   release_channel {
@@ -57,10 +56,10 @@ resource "google_container_cluster" "gke_cluster" {
 
   ##### 網路連線 #####
   #### 網路 ####
-  network = "projects/${var.network_project_id}/global/networks/${var.network}"
+  network = "projects/${var.network_project}/global/networks/${var.network}"
 
   # 節點子網路
-  subnetwork = "projects/${var.network_project_id}/regions/${var.region}/subnetworks/${var.subnetwork}"
+  subnetwork = "projects/${var.network_project}/regions/${var.region}/subnetworks/${var.subnetwork}"
 
   #### IPv4網路存取權
   private_cluster_config {
