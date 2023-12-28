@@ -19,6 +19,11 @@ module "cluster_test" {
     env = "dev"
   }
   enable_master_authorized_networks_config = false # 網路連線 -> 進階網路選項 -> 啟用控制層授權網路
-  master_authorized_networks_cidr_blocks   = []    # 網路連線 -> 進階網路選項 -> 啟用控制層授權網路
-  work_load                                = null  # 安全性
+  master_authorized_networks_cidr_blocks = [       # 網路連線 -> 進階網路選項 -> 啟用控制層授權網路
+    {
+      cidr_block   = "0.0.0.0/0"
+      display_name = "Google Cloud Build"
+    }
+  ]
+  work_load = null # 安全性
 }
