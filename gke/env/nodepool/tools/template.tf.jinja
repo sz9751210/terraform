@@ -1,0 +1,24 @@
+module "{{module_name}}" {% raw %}{{% endraw %}
+  source = "../"
+  max_node_count = {{max_node_count}}
+  min_node_count = {{min_node_count}}
+  cluster = "{{cluster}}"
+  initial_node_count = {{initial_node_count}}
+  location = "{{location}}"
+  max_pods_per_node = {{max_pods_per_node}}
+  name = "{{name}}"
+  pod_ipv4_cidr_block = "{{pod_ipv4_cidr_block}}"
+  {% if labels %}
+  labels = {
+    {{labels}}
+  }
+  {% endif %}
+  disk_size_gb = {{disk_size_gb}}
+  machine_type = "{{machine_type}}"
+  node_count = {{node_count}}
+  project = "{{project}}"
+  max_surge = {{max_surge}}
+  max_unavailable = {{max_unavailable}}
+  node_version = "{{node_version}}"
+{% raw %}}{% endraw %}
+

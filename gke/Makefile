@@ -6,7 +6,7 @@
 TF_CMD = terraform
 
 # List of valid services
-VALID_SERVICES := cluster
+VALID_SERVICES := cluster nodepool
 
 .PHONY: create destroy up-% down-% help
 
