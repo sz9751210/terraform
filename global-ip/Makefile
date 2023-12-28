@@ -2,5 +2,6 @@
 
 up-global-ip:
 	cd env && terraform init && terraform apply -auto-approve
+	
 down-global-ip:
 	cd env && terraform init && terraform destroy

@@ -22,7 +22,6 @@ help:
 	@echo "Trigger Terraform by creating a GCE with the specified 'SERVICE'"
 	@echo "Allowed services are: $(VALID_SERVICES)"
 
-
 up-%:
 	@if echo $(VALID_SERVICES) | grep -w $* > /dev/null; then \
 		$(MAKE) create DIR=$*; \
@@ -36,5 +35,3 @@ down-%:
 	else \
 		echo "Error: Invalid services. Valid services are: $(VALID_SERVICES)"; \
 	fi
-
-
