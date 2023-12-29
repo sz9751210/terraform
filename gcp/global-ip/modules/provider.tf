@@ -8,6 +8,6 @@ terraform {
 }
 
 provider "google" {
-  project = "nelab-402301"
+  project = "your-project-id"
   region  = "asia-east1"
 }
