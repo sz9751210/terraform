@@ -26,7 +26,7 @@ resource "aws_eip" "nat_eip" {
 
 # 建立 NAT Gateway，用於私有子網的出口流量
 resource "aws_nat_gateway" "nat_gateway" {
-  count = length(aws_subnet.public_subnets)
+  count         = length(aws_subnet.public_subnets)
   allocation_id = aws_eip.nat_eip[count.index].id
   subnet_id     = aws_subnet.public_subnets[count.index].id
 
@@ -86,7 +86,7 @@ resource "aws_route_table_association" "public_rta" {
 
 # 為私有子網配置路由表
 resource "aws_route_table" "private_route_table" {
-  count = length(aws_subnet.private_subnets)
+  count  = length(aws_subnet.private_subnets)
   vpc_id = aws_vpc.main_vpc.id
 
   route {
