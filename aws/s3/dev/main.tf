@@ -1,6 +1,6 @@
-module "base-bucket" {
+module "dev-bucket" {
   source              = "../modules"
+  bucket_name         = "dev-terraform-status"
   dynamodb_table_name = "dev-terraform-locks"
-  bucket_name         = "dev-terraform-bucket"
   region              = "ap-east-1"
 }
