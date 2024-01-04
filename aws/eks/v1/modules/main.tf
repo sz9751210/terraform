@@ -113,18 +113,20 @@ resource "aws_iam_role_policy_attachment" "eks_ec2_container_registry_read" {
 
 # EKS Node Group
 resource "aws_eks_node_group" "eks_node_group" {
+  for_each = { for ng in var.node_groups : ng.node_group_name => ng }
+
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${var.name}-node-group"
+  node_group_name = each.value.node_group_name
   node_role_arn   = aws_iam_role.eks_node_group_iam_role.arn
   subnet_ids      = var.private_subnet_ids
 
   scaling_config {
-    desired_size = var.node_desired_size
-    max_size     = var.node_max_size
-    min_size     = var.node_min_size
+    desired_size = each.value.node_desired_size
+    max_size     = each.value.node_max_size
+    min_size     = each.value.node_min_size
   }
 
-  instance_types = var.instance_types
+  instance_types = each.value.instance_types
   depends_on     = [aws_eks_cluster.eks_cluster]
 }
 

@@ -1,3 +1,7 @@
+variable "region" {
+  type = string
+}
+
 variable "name" {
   type = string
 }
@@ -30,22 +34,16 @@ variable "coredns_version" {
   type = string
 }
 
-variable "instance_types" {
-  type = list(string)
-}
-
-variable "node_desired_size" {
-  type = number
-}
-
-variable "node_max_size" {
-  type = number
-}
-
-variable "node_min_size" {
-  type = number
-}
-
-variable "region" {
-  type = string
+variable "node_groups" {
+  type = list(object
+    (
+      {
+        node_group_name   = string
+        instance_types    = list(string)
+        node_desired_size = number
+        node_max_size     = number
+        node_min_size     = number
+      }
+    )
+  )
 }

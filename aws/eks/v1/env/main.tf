@@ -23,8 +23,20 @@ module "eks" {
   public_access_cidrs = [
     "0.0.0.0/0"
   ]
-  instance_types    = ["t3.medium"]
-  node_desired_size = 2
-  node_min_size     = 1
-  node_max_size     = 20
+  node_groups = [
+    {
+      node_group_name   = "my-eks-node-group-1"
+      instance_types    = ["t3.medium"]
+      node_desired_size = 2
+      node_max_size     = 3
+      node_min_size     = 1
+    },
+    {
+      node_group_name   = "my-eks-node-group-2"
+      instance_types    = ["t3.large"]
+      node_desired_size = 1
+      node_max_size     = 2
+      node_min_size     = 1
+    }
+  ]
 }
