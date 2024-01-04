@@ -112,7 +112,7 @@ resource "aws_iam_role_policy_attachment" "eks_ec2_container_registry_read" {
 }
 
 # EKS Node Group
-resource "aws_eks_node_group" "example" {
+resource "aws_eks_node_group" "eks_node_group" {
   for_each = { for ng in var.node_groups : ng.node_group_name => ng }
 
   cluster_name    = aws_eks_cluster.eks_cluster.name

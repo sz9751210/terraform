@@ -47,4 +47,3 @@ variable "node_groups" {
     )
   )
 }
-
