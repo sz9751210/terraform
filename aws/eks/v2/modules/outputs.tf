@@ -19,11 +19,11 @@ output "cluster_security_group_id" {
 }
 
 output "node_group_arn" {
-  value = aws_eks_node_group.eks_node_group.arn
+  value = { for key, ng in aws_eks_node_group.eks_node_group : key => ng.arn }
 }
 
 output "node_group_status" {
-  value = aws_eks_node_group.eks_node_group.status
+  value = { for key, ng in aws_eks_node_group.eks_node_group : key => ng.status }
 }
 
 output "openid_connect_provider_arn" {
