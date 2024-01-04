@@ -11,8 +11,10 @@ data "terraform_remote_state" "eks" {
 }
 
 module "alb" {
-  source       = "../modules"
-  region       = "ap-east-1"
-  cluster_name = data.terraform_remote_state.eks.outputs.cluster_name
-  oidc_url     = data.terraform_remote_state.eks.outputs.openid_connect_provider_url
+  source                 = "../modules"
+  region                 = "ap-east-1"
+  cluster_name           = data.terraform_remote_state.eks.outputs.cluster_name
+  oidc_url               = data.terraform_remote_state.eks.outputs.openid_connect_provider_url
+  cluster_endpoint       = data.terraform_remote_state.eks.outputs.cluster_endpoint
+  cluster_ca_certificate = base64decode(data.terraform_remote_state.eks.outputs.cluster_certificate_authority_data)
 }
