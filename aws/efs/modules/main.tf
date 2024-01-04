@@ -1,14 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-data "template_file" "trust_policy" {
-  template = file("${path.module}/files/efs_trust_policy.json.tpl")
-
-  vars = {
-    account_id         = data.aws_caller_identity.current.account_id
-    oidc_provider_host = var.oidc_url
-  }
-}
-
 resource "aws_efs_file_system" "aws_efs" {
   creation_token   = var.cluster_name
   encrypted        = true
@@ -30,7 +21,6 @@ resource "aws_security_group" "efs_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "${var.cluster_name}-efs-sg"
   }
@@ -44,8 +34,14 @@ resource "aws_efs_mount_target" "efs_mount_target" {
 }
 
 resource "aws_iam_role" "efs_role" {
-  name               = "${var.name}-AmazonEKS_EFS_CSI_DriverRole"
-  assume_role_policy = data.template_file.trust_policy.rendered
+  name = "${var.cluster_name}-AmazonEKS_EFS_CSI_DriverRole"
+  assume_role_policy = templatefile(
+    ("${path.module}/files/efs_trust_policy.json.tftpl"),
+    {
+      account_id         = data.aws_caller_identity.current.account_id
+      oidc_provider_host = var.oidc_url
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "example_attach" {
@@ -73,7 +69,6 @@ resource "kubernetes_service_account" "efs_csi_node_sa" {
   }
 }
 
-# Helm chart for AWS EFS CSI Driver (requires Helm provider)
 resource "helm_release" "aws_efs_csi_driver" {
   name       = "aws-efs-csi-driver"
   repository = "https://kubernetes-sigs.github.io/aws-efs-csi-driver/"
@@ -104,9 +99,7 @@ resource "kubernetes_storage_class" "efs_sc" {
   metadata {
     name = "efs-sc"
   }
-
   storage_provisioner = "efs.csi.aws.com"
-
   parameters = {
     provisioningMode = "efs-ap"
     fileSystemId     = aws_efs_file_system.aws_efs.id
