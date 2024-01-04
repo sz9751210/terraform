@@ -19,23 +19,23 @@ output "cluster_id" {
   value       = module.eks.cluster_id
 }
 
-output "openid_connect_provider_arn" {
-  description = "The ARN assigned by AWS to the OpenID Connect Provider."
-  value       = module.eks.openid_connect_provider_arn
-}
-
 output "cluster_security_group_id" {
   description = "The security group ID associated with the EKS cluster."
   value       = module.eks.cluster_security_group_id
-}
-
-output "openid_connect_provider_url" {
-  description = "The URL of the OpenID Connect Provider."
-  value       = module.eks.openid_connect_provider_url
 }
 
 output "cluster_token" {
     description = "The token to use to authenticate with the EKS cluster."
     value       = module.eks.cluster_token
     sensitive = true
+}
+
+output "openid_connect_provider_arn" {
+  description = "The ARN assigned by AWS to the OpenID Connect Provider."
+  value       = module.eks.openid_connect_provider_arn
+}
+
+output "openid_connect_provider_url" {
+  description = "The URL of the OpenID Connect Provider."
+  value       = module.eks.openid_connect_provider_url
 }

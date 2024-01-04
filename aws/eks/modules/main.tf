@@ -6,13 +6,11 @@ data "aws_eks_cluster_auth" "cluster_auth" {
   name = var.name
 }
 
-# IAM Role for EKS Cluster
 resource "aws_iam_role" "eks_cluster_iam_role" {
   name = "${var.name}-cluster-iam-role"
   assume_role_policy = file("${path.module}/files/cluster_trust_policy.json")
 }
 
-# Attach IAM Policies to EKS Cluster Role
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_cluster_iam_role.name
@@ -23,7 +21,6 @@ resource "aws_iam_role_policy_attachment" "eks_service_policy" {
   role       = aws_iam_role.eks_cluster_iam_role.name
 }
 
-# Security Group for EKS Control Plane
 resource "aws_security_group" "eks_control_plane_sg" {
   name        = "${var.name}-cluster-control-plane-sg"
   description = "Security group for EKS control plane"
@@ -41,7 +38,6 @@ resource "aws_security_group" "eks_control_plane_sg" {
   }
 }
 
-# EKS Cluster
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.name
   role_arn = aws_iam_role.eks_cluster_iam_role.arn
@@ -74,7 +70,7 @@ resource "aws_eks_addon" "kube_proxy" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name                = aws_eks_cluster.eks_cluster.name
   addon_name                  = "vpc-cni"
-  addon_version               = var.vpc_cni_version # Replace with the desired version
+  addon_version               = var.vpc_cni_version
   resolve_conflicts_on_create = "NONE"
   resolve_conflicts_on_update = "NONE"
   depends_on                  = [aws_eks_cluster.eks_cluster]
@@ -89,13 +85,11 @@ resource "aws_eks_addon" "coredns" {
   depends_on                  = [aws_eks_cluster.eks_cluster]
 }
 
-# IAM Role for EKS Node Group
 resource "aws_iam_role" "eks_node_group_iam_role" {
   name = "${var.name}-node-group-iam-role"
   assume_role_policy = file("${path.module}/files/node_group_trust_policy.json.")
 }
 
-# Attach IAM Policies to EKS Node Group Role
 resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.eks_node_group_iam_role.name
@@ -111,7 +105,6 @@ resource "aws_iam_role_policy_attachment" "eks_ec2_container_registry_read" {
   role       = aws_iam_role.eks_node_group_iam_role.name
 }
 
-# EKS Node Group
 resource "aws_eks_node_group" "eks_node_group" {
   for_each = { for ng in var.node_groups : ng.node_group_name => ng }
 
