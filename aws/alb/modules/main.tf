@@ -1,10 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_policy" "alb_policy" {
-  name   = "AWSLoadBalancerControllerIAMPolicy"
-  policy = file("${path.module}/files/alb_policy.json")
-}
-
 resource "aws_iam_role" "alb_iam_role" {
   name = "${var.cluster_name}-AmazonEKSLoadBalancerControllerRole"
   assume_role_policy = templatefile("${path.module}/files/alb_trust_policy.json.tftpl",
@@ -17,7 +12,7 @@ resource "aws_iam_role" "alb_iam_role" {
 
 resource "aws_iam_role_policy_attachment" "alb_attach" {
   role       = aws_iam_role.alb_iam_role.name
-  policy_arn = aws_iam_policy.alb_policy.arn
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/AWSLoadBalancerControllerIAMPolicy"
 }
 
 resource "kubernetes_service_account" "aws_load_balancer_controller_service_account" {
