@@ -87,7 +87,7 @@ resource "aws_eks_addon" "coredns" {
 
 resource "aws_iam_role" "eks_node_group_iam_role" {
   name = "${var.name}-node-group-iam-role"
-  assume_role_policy = file("${path.module}/files/node_group_trust_policy.json.")
+  assume_role_policy = file("${path.module}/files/node_group_trust_policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
