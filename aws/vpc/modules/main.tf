@@ -26,9 +26,9 @@ resource "aws_eip" "nat_eip" {
 
 # 建立 NAT Gateway，用於私有子網的出口流量
 resource "aws_nat_gateway" "nat_gateway" {
-  count         = length(aws_subnet.public_subnets)
+  count         = length(aws_subnet.private_subnets)
   allocation_id = aws_eip.nat_eip[count.index].id
-  subnet_id     = aws_subnet.public_subnets[count.index].id
+  subnet_id     = aws_subnet.private_subnets[count.index].id
 
   tags = {
     Name = "${var.prefix}-nat-${count.index}"
@@ -37,7 +37,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 
 # 建立公有子網，用於需要對外訪問的資源
 resource "aws_subnet" "public_subnets" {
-  count                   = 3
+  count                   = length(var.public_subnets_cidr)
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = element(var.public_subnets_cidr, count.index)
   map_public_ip_on_launch = true
@@ -51,7 +51,7 @@ resource "aws_subnet" "public_subnets" {
 
 # 建立私有子網，用於不需要直接對外訪問的資源
 resource "aws_subnet" "private_subnets" {
-  count                   = 3
+  count                   = length(var.private_subnets_cidr)
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = element(var.private_subnets_cidr, count.index)
   map_public_ip_on_launch = false
