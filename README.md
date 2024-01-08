@@ -124,6 +124,10 @@ Feel free to open issues if you find missing configuration or customisation opti
 
 Please use the issue tracker to report any bugs or file feature requests.
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
 ## Contact
 
 E-mail: [alandev9751210@gmail.com](mailto:<alandev9751210@gmail.com>)
