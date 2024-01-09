@@ -4,6 +4,6 @@ resource "aws_iam_policy" "alb_policy" {
 }
 
 resource "aws_iam_policy" "asg_policy" {
-  name   = "k8s-cluster-autoscaler-asg-policy"
+  name   = "KubernetesClusterAutoscalerASGPolicy"
   policy = file("${path.module}/files/asg_policy.json")
 }

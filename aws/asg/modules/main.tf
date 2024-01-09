@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role" "cluster_autoscaler" {
-  name = "${var.cluster_name}-cluster-autoscaler"
+  name = "${var.cluster_name}-AWSServiceRoleForClusterAutoScaler"
   assume_role_policy = templatefile("${path.module}/files/asg_trust_policy.json.tftpl",
     {
       account_id         = data.aws_caller_identity.current.account_id
@@ -12,7 +12,7 @@ resource "aws_iam_role" "cluster_autoscaler" {
 
 resource "aws_iam_role_policy_attachment" "asg_policy_attach" {
   role       = aws_iam_role.cluster_autoscaler.name
-  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/k8s-cluster-autoscaler-asg-policy"
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/KubernetesClusterAutoscalerASGPolicy"
 }
 
 resource "local_file" "k8s_config" {

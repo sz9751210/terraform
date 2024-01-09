@@ -34,7 +34,7 @@ resource "aws_efs_mount_target" "efs_mount_target" {
 }
 
 resource "aws_iam_role" "efs_role" {
-  name = "${var.cluster_name}-AmazonEKS_EFS_CSI_DriverRole"
+  name = "${var.cluster_name}-AWSServiceRoleForEFS"
   assume_role_policy = templatefile(
     ("${path.module}/files/efs_trust_policy.json.tftpl"),
     {
@@ -54,7 +54,7 @@ resource "kubernetes_service_account" "efs_csi_controller_sa" {
     name      = "efs-csi-controller-sa"
     namespace = "kube-system"
     annotations = {
-      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AmazonEKS_EFS_CSI_DriverRole"
+      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AWSServiceRoleForEFS"
     }
   }
 }
@@ -64,7 +64,7 @@ resource "kubernetes_service_account" "efs_csi_node_sa" {
     name      = "efs-csi-node-sa"
     namespace = "kube-system"
     annotations = {
-      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AmazonEKS_EFS_CSI_DriverRole"
+      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AWSServiceRoleForEFS"
     }
   }
 }

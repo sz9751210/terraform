@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role" "alb_iam_role" {
-  name = "${var.cluster_name}-AmazonEKSLoadBalancerControllerRole"
+  name = "${var.cluster_name}-AWSServiceRoleForEKSLoadBalancerController"
   assume_role_policy = templatefile("${path.module}/files/alb_trust_policy.json.tftpl",
     {
       account_id         = data.aws_caller_identity.current.account_id
@@ -20,7 +20,7 @@ resource "kubernetes_service_account" "aws_load_balancer_controller_service_acco
     name      = "aws-load-balancer-controller"
     namespace = "kube-system"
     annotations = {
-      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AmazonEKSLoadBalancerControllerRole",
+      "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AWSServiceRoleForEKSLoadBalancerController",
     }
   }
 }

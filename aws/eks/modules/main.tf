@@ -7,7 +7,7 @@ data "aws_eks_cluster_auth" "cluster_auth" {
 }
 
 resource "aws_iam_role" "eks_cluster_iam_role" {
-  name = "${var.name}-cluster-iam-role"
+  name = "${var.name}-AWSServiceRoleForClusterIamRole"
   assume_role_policy = file("${path.module}/files/cluster_trust_policy.json")
 }
 
@@ -86,7 +86,7 @@ resource "aws_eks_addon" "coredns" {
 }
 
 resource "aws_iam_role" "eks_node_group_iam_role" {
-  name = "${var.name}-node-group-iam-role"
+  name = title("${var.name}-AWSServiceRoleForNodeGroupIamRole")
   assume_role_policy = file("${path.module}/files/node_group_trust_policy.json")
 }
 
@@ -120,7 +120,10 @@ resource "aws_eks_node_group" "eks_node_group" {
   }
 
   instance_types = each.value.instance_types
-  depends_on     = [aws_eks_cluster.eks_cluster]
+  depends_on     = [aws_eks_cluster.eks_cluster,
+                    aws_iam_role_policy_attachment.eks_cni_policy,
+                    aws_iam_role_policy_attachment.eks_worker_node_policy,
+                    aws_iam_role_policy_attachment.eks_ec2_container_registry_read]
 }
 
 resource "aws_iam_openid_connect_provider" "oidc_provider" {
