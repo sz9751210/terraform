@@ -34,6 +34,10 @@ variable "coredns_version" {
   type = string
 }
 
+variable "users" {
+  type        = list(string)
+}
+
 variable "node_groups" {
   type = list(object
     (

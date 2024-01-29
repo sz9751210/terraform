@@ -6,7 +6,7 @@
 TF_CMD = terraform
 
 # List of valid services
-VALID_SERVICES := v1
+VALID_SERVICES := eks
 
 .PHONY: create destroy up-% down-% help
 
