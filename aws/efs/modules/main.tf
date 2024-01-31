@@ -44,9 +44,10 @@ resource "aws_iam_role" "efs_role" {
   )
 }
 
-resource "aws_iam_role_policy_attachment" "example_attach" {
+resource "aws_iam_role_policy_attachment" "efs_attach" {
   role       = aws_iam_role.efs_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+  depends_on = [aws_iam_role.efs_role]
 }
 
 resource "kubernetes_service_account" "efs_csi_controller_sa" {
@@ -57,6 +58,7 @@ resource "kubernetes_service_account" "efs_csi_controller_sa" {
       "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AWSServiceRoleForEFS"
     }
   }
+  depends_on = [aws_iam_role.efs_role]
 }
 
 resource "kubernetes_service_account" "efs_csi_node_sa" {
@@ -67,6 +69,7 @@ resource "kubernetes_service_account" "efs_csi_node_sa" {
       "eks.amazonaws.com/role-arn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-AWSServiceRoleForEFS"
     }
   }
+  depends_on = [aws_iam_role.efs_role]
 }
 
 resource "helm_release" "aws_efs_csi_driver" {
