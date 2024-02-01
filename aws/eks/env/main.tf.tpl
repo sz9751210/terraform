@@ -13,7 +13,7 @@ data "terraform_remote_state" "vpc" {
 module "eks" {
   source              = "../modules"
   name                = "${NAME_PREFIX}"
-  target_region       = "${AWS_REGION}"
+  region              = "${AWS_REGION}"
   cluster_version     = "${CLUSTER_VERSION}"
   kube_proxy_version  = "${KUBE_PROXY_VERSION}"
   vpc_cni_version     = "${VPC_CNI_VERSION}"
