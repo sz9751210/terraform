@@ -1,0 +1,42 @@
+NAME_PREFIX: aws-eks
+ENV_COND: lab
+AWS_REGION: ap-east-1
+BACKEND:
+  BUCKET: aws-eks-terraform-status
+  KEY_PREFIX: lab/
+  DYNAMODB_TABLE: aws-eks-terraform-locks
+VPC:
+  VPC_CIDR_ENV: 10.0.0.0/16
+  PUBLIC_SUBNET_ENV:
+    - 10.0.1.0/24
+    - 10.0.2.0/24
+    - 10.0.3.0/24
+  PRIVATE_SUBNET_ENV:
+    - 10.0.4.0/24
+    - 10.0.5.0/24
+    - 10.0.6.0/24
+  AZS_ENV:
+    - ap-east-1a
+    - ap-east-1b
+    - ap-east-1c
+EKS:
+  VERSION: 1.29
+  KUBE_PROXY_VERSION: v1.29.0-eksbuild.1
+  VPC_CNI_VERSION: v1.16.0-eksbuild.1
+  COREDNS_VERSION: v1.11.1-eksbuild.4
+  PUBLIC_ACCESS_CIDRS:
+    - 111.234.33.55/32
+    - 113.234.55.44/32
+  USERS:
+    - alan_wang
+  NODE_GROUPS:
+    - node_group_name: node-group-1
+      instance_types: ["t3.medium"]
+      node_desired_size: 1
+      node_max_size: 3
+      node_min_size: 1
+    - node_group_name: node-group-2
+      instance_types: ["t3.large"]
+      node_desired_size: 1
+      node_max_size: 3
+      node_min_size: 1
