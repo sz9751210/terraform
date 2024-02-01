@@ -11,10 +11,10 @@ VALID_SERVICES := eks
 .PHONY: create destroy up-% down-% help
 
 create:
-	cd $(DIR)/env && terraform init && terraform apply -auto-approve
+	cd env && terraform init && terraform apply -auto-approve
 
 destroy:
-	cd $(DIR)/env && terraform init && terraform destroy
+	cd env && terraform init && terraform destroy
 
 # Display help information
 help:
