@@ -231,7 +231,7 @@ terraform {
 ```
 
 這樣就已經完成簡單的模組化了。
-完整代碼在[這裡](https://github.com/sz9751210/terraform-cloudflare)
+完整代碼在[這裡](https://github.com/sz9751210/terraform/tree/main/practices/code/terraform-cloudflare)
 ## Reference
 - [cloudflare_record | Resources | cloudflare/cloudflare | Terraform | Terraform Registry](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)
 - [Create API token · Cloudflare Fundamentals docs](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
