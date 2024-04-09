@@ -146,6 +146,11 @@ Each module directory contains a `main.tf` file which you can customize accordin
 | Database Deployment | [mongodbatlas_advanced_cluster](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/advanced_cluster)             |
 | IP Access List      | [mongodbatlas_project_ip_access_list](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/project_ip_access_list) |
 
+## Practices
+
+| Docs Link | Description |
+| ---------------- | ----------- |
+
 ## Contributing
 
 Contributions are welcome and I will review and consider pull requests.
